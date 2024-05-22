@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Coletar Localização</h2>
+
+<button onclick="getLocation()">Clique aqui</button>
+
+<p id="location"></p>
+
+<script>
+var x = document.getElementById("location");
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else { 
+    x.innerHTML = "Geolocalização não é suportada por este navegador.";
+  }
+}
+
+function showPosition(position) {
+  x.innerHTML = "Latitude: " + position.coords.latitude + 
+  "<br>Longitude: " + position.coords.longitude;
+  // Enviar os dados para o servidor
+  fetch('https://seuservidor.com/localizacao', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude
+    })
+  });
+}
+</script>
+
+</body>
+</html>
